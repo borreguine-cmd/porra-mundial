@@ -1,0 +1,531 @@
+[
+  {
+    "userId": "u_1777828120727_804ax",
+    "matches": [
+      {
+        "matchId": "GA1",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GA2",
+        "homeScore": 2,
+        "awayScore": 4
+      },
+      {
+        "matchId": "GA4",
+        "homeScore": 1,
+        "awayScore": 1
+      },
+      {
+        "matchId": "GA6",
+        "homeScore": 2,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GB6",
+        "homeScore": 1,
+        "awayScore": 1
+      },
+      {
+        "matchId": "GC3",
+        "homeScore": 4,
+        "awayScore": 2
+      },
+      {
+        "matchId": "GC4",
+        "homeScore": 0,
+        "awayScore": 2
+      },
+      {
+        "matchId": "GC6",
+        "homeScore": 1,
+        "awayScore": 1
+      },
+      {
+        "matchId": "GD1",
+        "homeScore": 0,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GD2",
+        "homeScore": 0,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GD6",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GE1",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GE3",
+        "homeScore": 0,
+        "awayScore": 1
+      },
+      {
+        "matchId": "GE6",
+        "homeScore": 2,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GF6",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GG3",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GG4",
+        "homeScore": 2,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GG6",
+        "homeScore": 1,
+        "awayScore": 1
+      },
+      {
+        "matchId": "GH1",
+        "homeScore": 0,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GH2",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GH4",
+        "homeScore": 1,
+        "awayScore": 1
+      },
+      {
+        "matchId": "GH5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GH6",
+        "homeScore": 1,
+        "awayScore": 1
+      },
+      {
+        "matchId": "GI6",
+        "homeScore": 3,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GJ6",
+        "homeScore": 0,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GK4",
+        "homeScore": 2,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GK6",
+        "homeScore": 1,
+        "awayScore": 1
+      },
+      {
+        "matchId": "GL3",
+        "homeScore": 2,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GL6",
+        "homeScore": 0,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_1",
+        "homeScore": 1,
+        "awayScore": 1,
+        "homePenalties": 2,
+        "awayPenalties": 4
+      },
+      {
+        "matchId": "R32_10",
+        "homeScore": 1,
+        "awayScore": 1,
+        "homePenalties": 1,
+        "awayPenalties": 3
+      },
+      {
+        "matchId": "R32_16",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "QF_4",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "3RD",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "FINAL",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GA3",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GA5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GB1",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GB2",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GB3",
+        "homeScore": 0,
+        "awayScore": 1
+      },
+      {
+        "matchId": "GB4",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GB5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GC1",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GC2",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GC5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GD3",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GD4",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GD5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GE2",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GE4",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GE5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GF1",
+        "homeScore": 0,
+        "awayScore": 1
+      },
+      {
+        "matchId": "GF2",
+        "homeScore": 1,
+        "awayScore": 1
+      },
+      {
+        "matchId": "GF3",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GF4",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GF5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GG1",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GG2",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GG5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GH3",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GI1",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GI2",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GI3",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GI4",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GI5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GJ1",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GJ2",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GJ3",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GJ4",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GJ5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GK1",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GK2",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GK3",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GK5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GL1",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GL2",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GL4",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "GL5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_2",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_3",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_4",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_6",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_7",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_8",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_9",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_11",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_12",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_13",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_14",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R32_15",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R16_1",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R16_2",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R16_3",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R16_4",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R16_5",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R16_6",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R16_7",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "R16_8",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "QF_1",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "QF_2",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "QF_3",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "SF_1",
+        "homeScore": 1,
+        "awayScore": 0
+      },
+      {
+        "matchId": "SF_2",
+        "homeScore": 1,
+        "awayScore": 0
+      }
+    ]
+  }
+]

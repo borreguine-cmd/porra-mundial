@@ -1,0 +1,61 @@
+[
+  { "id": "mexico",      "name": "México",             "flag": "🇲🇽", "group": "A" },
+  { "id": "south_korea", "name": "Corea del Sur",      "flag": "🇰🇷", "group": "A" },
+  { "id": "south_africa","name": "Sudáfrica",          "flag": "🇿🇦", "group": "A" },
+  { "id": "czechia",     "name": "Chequia",            "flag": "🇨🇿", "group": "A" },
+
+  { "id": "canada",      "name": "Canadá",             "flag": "🇨🇦", "group": "B" },
+  { "id": "switzerland", "name": "Suiza",              "flag": "🇨🇭", "group": "B" },
+  { "id": "qatar",       "name": "Qatar",              "flag": "🇶🇦", "group": "B" },
+  { "id": "bosnia",      "name": "Bosnia-Herzegovina", "flag": "🇧🇦", "group": "B" },
+
+  { "id": "brazil",      "name": "Brasil",             "flag": "🇧🇷", "group": "C" },
+  { "id": "morocco",     "name": "Marruecos",          "flag": "🇲🇦", "group": "C" },
+  { "id": "haiti",       "name": "Haití",              "flag": "🇭🇹", "group": "C" },
+  { "id": "scotland",    "name": "Escocia",            "flag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "group": "C" },
+
+  { "id": "usa",         "name": "Estados Unidos",     "flag": "🇺🇸", "group": "D" },
+  { "id": "paraguay",    "name": "Paraguay",           "flag": "🇵🇾", "group": "D" },
+  { "id": "australia",   "name": "Australia",          "flag": "🇦🇺", "group": "D" },
+  { "id": "turkey",      "name": "Turquía",            "flag": "🇹🇷", "group": "D" },
+
+  { "id": "germany",     "name": "Alemania",           "flag": "🇩🇪", "group": "E" },
+  { "id": "ivory_coast", "name": "Costa de Marfil",   "flag": "🇨🇮", "group": "E" },
+  { "id": "ecuador",     "name": "Ecuador",            "flag": "🇪🇨", "group": "E" },
+  { "id": "curacao",     "name": "Curazao",            "flag": "🇨🇼", "group": "E" },
+
+  { "id": "netherlands", "name": "Países Bajos",       "flag": "🇳🇱", "group": "F" },
+  { "id": "sweden",      "name": "Suecia",             "flag": "🇸🇪", "group": "F" },
+  { "id": "tunisia",     "name": "Túnez",              "flag": "🇹🇳", "group": "F" },
+  { "id": "japan",       "name": "Japón",              "flag": "🇯🇵", "group": "F" },
+
+  { "id": "belgium",     "name": "Bélgica",            "flag": "🇧🇪", "group": "G" },
+  { "id": "egypt",       "name": "Egipto",             "flag": "🇪🇬", "group": "G" },
+  { "id": "iran",        "name": "Irán",               "flag": "🇮🇷", "group": "G" },
+  { "id": "new_zealand", "name": "Nueva Zelanda",      "flag": "🇳🇿", "group": "G" },
+
+  { "id": "spain",       "name": "España",             "flag": "🇪🇸", "group": "H" },
+  { "id": "cape_verde",  "name": "Cabo Verde",         "flag": "🇨🇻", "group": "H" },
+  { "id": "saudi_arabia","name": "Arabia Saudí",       "flag": "🇸🇦", "group": "H" },
+  { "id": "uruguay",     "name": "Uruguay",            "flag": "🇺🇾", "group": "H" },
+
+  { "id": "france",      "name": "Francia",            "flag": "🇫🇷", "group": "I" },
+  { "id": "senegal",     "name": "Senegal",            "flag": "🇸🇳", "group": "I" },
+  { "id": "iraq",        "name": "Iraq",               "flag": "🇮🇶", "group": "I" },
+  { "id": "norway",      "name": "Noruega",            "flag": "🇳🇴", "group": "I" },
+
+  { "id": "argentina",   "name": "Argentina",          "flag": "🇦🇷", "group": "J" },
+  { "id": "algeria",     "name": "Argelia",            "flag": "🇩🇿", "group": "J" },
+  { "id": "austria",     "name": "Austria",            "flag": "🇦🇹", "group": "J" },
+  { "id": "jordan",      "name": "Jordania",           "flag": "🇯🇴", "group": "J" },
+
+  { "id": "portugal",    "name": "Portugal",           "flag": "🇵🇹", "group": "K" },
+  { "id": "dr_congo",    "name": "R.D. Congo",         "flag": "🇨🇩", "group": "K" },
+  { "id": "uzbekistan",  "name": "Uzbekistán",         "flag": "🇺🇿", "group": "K" },
+  { "id": "colombia",    "name": "Colombia",           "flag": "🇨🇴", "group": "K" },
+
+  { "id": "england",     "name": "Inglaterra",         "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "group": "L" },
+  { "id": "croatia",     "name": "Croacia",            "flag": "🇭🇷", "group": "L" },
+  { "id": "ghana",       "name": "Ghana",              "flag": "🇬🇭", "group": "L" },
+  { "id": "panama",      "name": "Panamá",             "flag": "🇵🇦", "group": "L" }
+]

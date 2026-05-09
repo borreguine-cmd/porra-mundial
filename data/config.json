@@ -1,0 +1,14 @@
+{
+  "inviteToken": "mundial2026",
+  "adminPassword": "admin2026",
+  "deadline": "2026-07-11T17:23:00.000Z",
+  "points": {
+    "correctWinner": 1,
+    "exactScore": 3,
+    "advancesGroup": 2,
+    "advancesKnockout": 3,
+    "correctChampion": 10,
+    "correctMVP": 5,
+    "correctTopScorer": 5
+  }
+}
