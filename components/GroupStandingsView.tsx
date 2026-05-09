@@ -5,6 +5,12 @@ import matchesData from '@/data/matches.json';
 import type { MatchPrediction } from '@/types';
 import { calcGroupStandings } from '@/lib/brackets';
 
+const MONTHS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+function fmtCEST(dt: string) {
+  const d = new Date(new Date(dt).getTime() + 2 * 3600_000); // UTC+2 (CEST)
+  return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${String(d.getUTCHours()).padStart(2,'0')}:${String(d.getUTCMinutes()).padStart(2,'0')}`;
+}
+
 const teamMap = Object.fromEntries(teamsData.map(t => [t.id, { name: t.name, flag: t.flag }]));
 const GROUPS = ['A','B','C','D','E','F','G','H','I','J','K','L'];
 
@@ -82,25 +88,21 @@ function GroupTable({ groupId, predictions }: { groupId: string; predictions: Ma
                 const ht = teamMap[m.home];
                 const at = teamMap[m.away];
                 return (
-                  <div key={m.id} className="flex items-center text-xs py-0.5 gap-1">
-                    <span className="flex-1 text-right flex items-center justify-end gap-1 min-w-0">
-                      <span className="truncate text-gray-700">{ht?.name}</span>
-                      <span className="flex-shrink-0">{ht?.flag}</span>
-                    </span>
-                    <div className="flex flex-col items-center flex-shrink-0 w-16">
-                      <span className={`font-bold ${pred ? 'text-gray-800' : 'text-gray-300'}`}>
+                  <div key={m.id} className="flex flex-col py-0.5">
+                    <div className="flex items-center text-xs gap-1">
+                      <span className="flex-1 text-right flex items-center justify-end gap-1 min-w-0">
+                        <span className="truncate text-gray-700">{ht?.name}</span>
+                        <span className="flex-shrink-0">{ht?.flag}</span>
+                      </span>
+                      <span className={`w-14 text-center font-bold flex-shrink-0 ${pred ? 'text-gray-800' : 'text-gray-300'}`}>
                         {pred ? `${pred.homeScore} – ${pred.awayScore}` : '– –'}
                       </span>
-                      {'datetime' in m && m.datetime && (
-                        <span className="text-[10px] text-gray-400 leading-none">
-                          {new Date(m.datetime).toLocaleString('es-ES', { timeZone: 'Europe/Madrid', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                        </span>
-                      )}
+                      <span className="flex-1 flex items-center gap-1 min-w-0">
+                        <span className="flex-shrink-0">{at?.flag}</span>
+                        <span className="truncate text-gray-700">{at?.name}</span>
+                      </span>
                     </div>
-                    <span className="flex-1 flex items-center gap-1 min-w-0">
-                      <span className="flex-shrink-0">{at?.flag}</span>
-                      <span className="truncate text-gray-700">{at?.name}</span>
-                    </span>
+                    <div className="text-center text-[11px] text-gray-400">{fmtCEST(m.datetime)}</div>
                   </div>
                 );
               })}

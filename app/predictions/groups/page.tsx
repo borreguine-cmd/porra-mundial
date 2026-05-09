@@ -10,6 +10,12 @@ import { calcGroupStandings } from '@/lib/brackets';
 const GROUPS = ['A','B','C','D','E','F','G','H','I','J','K','L'];
 const teamMap = Object.fromEntries(teamsData.map(t => [t.id, { name: t.name, flag: t.flag }]));
 
+const MONTHS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+function fmtCEST(dt: string) {
+  const d = new Date(new Date(dt).getTime() + 2 * 3600_000);
+  return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${String(d.getUTCHours()).padStart(2,'0')}:${String(d.getUTCMinutes()).padStart(2,'0')}`;
+}
+
 function MatchInputRow({
   m, prediction, onChange, locked,
 }: {
@@ -58,9 +64,7 @@ function MatchInputRow({
           </div>
         )}
         {m.datetime && (
-          <span className="text-[10px] text-gray-400 leading-none mt-0.5">
-            {new Date(m.datetime).toLocaleString('es-ES', { timeZone: 'Europe/Madrid', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
-          </span>
+          <span className="text-[11px] text-gray-400 mt-0.5">{fmtCEST(m.datetime)}</span>
         )}
       </div>
       <span className="flex-1 flex items-center gap-1 min-w-0">
