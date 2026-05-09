@@ -12,6 +12,7 @@ export interface GroupMatch {
   matchday: number;
   home: string;
   away: string;
+  datetime: string; // ISO UTC, e.g. "2026-06-11T20:00:00Z"
 }
 
 export interface KnockoutMatch {

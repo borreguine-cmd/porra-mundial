@@ -13,7 +13,7 @@ const teamMap = Object.fromEntries(teamsData.map(t => [t.id, { name: t.name, fla
 function MatchInputRow({
   m, prediction, onChange, locked,
 }: {
-  m: { id: string; home: string; away: string; matchday: number };
+  m: { id: string; home: string; away: string; matchday: number; datetime?: string };
   prediction: MatchPrediction | undefined;
   onChange: (p: MatchPrediction) => void;
   locked: boolean;
@@ -35,13 +35,13 @@ function MatchInputRow({
         <span className="truncate text-gray-700">{ht?.name}</span>
         <span className="flex-shrink-0 text-base">{ht?.flag}</span>
       </span>
-      <div className="flex items-center gap-0.5 flex-shrink-0">
+      <div className="flex flex-col items-center flex-shrink-0">
         {locked ? (
           <span className={`w-14 text-center font-bold ${prediction ? 'text-gray-800' : 'text-gray-300'}`}>
             {prediction ? `${prediction.homeScore} – ${prediction.awayScore}` : '– –'}
           </span>
         ) : (
-          <>
+          <div className="flex items-center gap-0.5">
             <input
               type="number" min={0} max={99}
               value={prediction?.homeScore ?? ''}
@@ -55,7 +55,12 @@ function MatchInputRow({
               onChange={e => { const v = parseInt(e.target.value); if (!isNaN(v) && v >= 0) set('awayScore', v); }}
               className="w-9 text-center border border-gray-300 rounded py-0.5 text-xs font-bold focus:outline-none focus:ring-1 focus:ring-green-500"
             />
-          </>
+          </div>
+        )}
+        {m.datetime && (
+          <span className="text-[10px] text-gray-400 leading-none mt-0.5">
+            {new Date(m.datetime).toLocaleString('es-ES', { timeZone: 'Europe/Madrid', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+          </span>
         )}
       </div>
       <span className="flex-1 flex items-center gap-1 min-w-0">

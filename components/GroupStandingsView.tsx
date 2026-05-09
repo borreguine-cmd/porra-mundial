@@ -87,9 +87,16 @@ function GroupTable({ groupId, predictions }: { groupId: string; predictions: Ma
                       <span className="truncate text-gray-700">{ht?.name}</span>
                       <span className="flex-shrink-0">{ht?.flag}</span>
                     </span>
-                    <span className={`w-14 text-center font-bold flex-shrink-0 ${pred ? 'text-gray-800' : 'text-gray-300'}`}>
-                      {pred ? `${pred.homeScore} – ${pred.awayScore}` : '– –'}
-                    </span>
+                    <div className="flex flex-col items-center flex-shrink-0 w-16">
+                      <span className={`font-bold ${pred ? 'text-gray-800' : 'text-gray-300'}`}>
+                        {pred ? `${pred.homeScore} – ${pred.awayScore}` : '– –'}
+                      </span>
+                      {'datetime' in m && m.datetime && (
+                        <span className="text-[10px] text-gray-400 leading-none">
+                          {new Date(m.datetime).toLocaleString('es-ES', { timeZone: 'Europe/Madrid', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                      )}
+                    </div>
                     <span className="flex-1 flex items-center gap-1 min-w-0">
                       <span className="flex-shrink-0">{at?.flag}</span>
                       <span className="truncate text-gray-700">{at?.name}</span>
