@@ -42,27 +42,53 @@ function EditableCard({ m, gold, onChange, locked }: {
   onChange: (p: MatchPrediction) => void;
   locked: boolean;
 }) {
-  const isDraw = m.hasPred && m.home.score !== undefined && m.home.score === m.away.score;
+  const [homeStr, setHomeStr] = useState(m.home.score?.toString() ?? '');
+  const [awayStr, setAwayStr] = useState(m.away.score?.toString() ?? '');
+  const loaded = useRef(m.hasPred);
 
-  function set(field: keyof MatchPrediction, val: number) {
-    onChange({
-      matchId: m.id,
-      homeScore: m.home.score ?? 0,
-      awayScore: m.away.score ?? 0,
-      homePenalties: m.home.penalties,
-      awayPenalties: m.away.penalties,
-      [field]: val,
-    });
+  useEffect(() => {
+    if (!loaded.current && m.hasPred) {
+      setHomeStr(m.home.score?.toString() ?? '');
+      setAwayStr(m.away.score?.toString() ?? '');
+      loaded.current = true;
+    }
+  }, [m.hasPred, m.home.score, m.away.score]);
+
+  const hNum = parseInt(homeStr);
+  const aNum = parseInt(awayStr);
+  const bothValid = !isNaN(hNum) && hNum >= 0 && !isNaN(aNum) && aNum >= 0;
+  const isDraw = bothValid && hNum === aNum;
+
+  function handleScore(side: 'home' | 'away', raw: string) {
+    const h = side === 'home' ? raw : homeStr;
+    const a = side === 'away' ? raw : awayStr;
+    if (side === 'home') setHomeStr(raw); else setAwayStr(raw);
+    const hn = parseInt(h);
+    const an = parseInt(a);
+    if (!isNaN(hn) && hn >= 0 && !isNaN(an) && an >= 0) {
+      onChange({
+        matchId: m.id,
+        homeScore: hn,
+        awayScore: an,
+        homePenalties: m.home.penalties,
+        awayPenalties: m.away.penalties,
+      });
+    }
+  }
+
+  function setPenalty(field: 'homePenalties' | 'awayPenalties', val: number) {
+    if (!bothValid) return;
+    onChange({ matchId: m.id, homeScore: hNum, awayScore: aNum, homePenalties: m.home.penalties, awayPenalties: m.away.penalties, [field]: val });
   }
 
   const rows = [
-    { slot: m.home, scoreField: 'homeScore' as keyof MatchPrediction },
-    { slot: m.away, scoreField: 'awayScore' as keyof MatchPrediction },
+    { slot: m.home, side: 'home' as const, str: homeStr },
+    { slot: m.away, side: 'away' as const, str: awayStr },
   ];
 
   return (
     <div style={{ width: CW }} className={`flex-shrink-0 rounded-lg overflow-hidden border-2 shadow-md ${gold ? 'border-yellow-400' : 'border-gray-600'} bg-gray-800`}>
-      {rows.map(({ slot, scoreField }, ri) => {
+      {rows.map(({ slot, side, str }, ri) => {
         const team = slot.id ? teamMap[slot.id] : null;
         const win = slot.winner && m.hasPred;
         return (
@@ -76,8 +102,8 @@ function EditableCard({ m, gold, onChange, locked }: {
               {slot.id && !locked ? (
                 <input
                   type="number" min={0} max={99}
-                  value={slot.score ?? ''}
-                  onChange={e => { const v = parseInt(e.target.value); if (!isNaN(v) && v >= 0) set(scoreField, v); }}
+                  value={str}
+                  onChange={e => handleScore(side, e.target.value)}
                   className="w-9 flex-shrink-0 text-center border border-gray-600 rounded py-0.5 text-xs font-bold bg-gray-700 text-gray-100 focus:outline-none focus:ring-1 focus:ring-green-500"
                 />
               ) : slot.score !== undefined && (
@@ -95,13 +121,13 @@ function EditableCard({ m, gold, onChange, locked }: {
           <span className="text-[10px] text-amber-400">Pen:</span>
           <input type="number" min={0} max={20}
             value={m.home.penalties ?? ''}
-            onChange={e => { const v = parseInt(e.target.value); if (!isNaN(v)) set('homePenalties', v); }}
+            onChange={e => { const v = parseInt(e.target.value); if (!isNaN(v)) setPenalty('homePenalties', v); }}
             className="w-7 text-center border border-amber-600 rounded py-0.5 text-[10px] font-bold bg-amber-900/50 text-amber-200 focus:outline-none"
           />
           <span className="text-amber-500 text-[10px]">–</span>
           <input type="number" min={0} max={20}
             value={m.away.penalties ?? ''}
-            onChange={e => { const v = parseInt(e.target.value); if (!isNaN(v)) set('awayPenalties', v); }}
+            onChange={e => { const v = parseInt(e.target.value); if (!isNaN(v)) setPenalty('awayPenalties', v); }}
             className="w-7 text-center border border-amber-600 rounded py-0.5 text-[10px] font-bold bg-amber-900/50 text-amber-200 focus:outline-none"
           />
         </div>

@@ -26,13 +26,27 @@ function MatchInputRow({
 }) {
   const ht = teamMap[m.home];
   const at = teamMap[m.away];
+  const [home, setHome] = useState(prediction?.homeScore?.toString() ?? '');
+  const [away, setAway] = useState(prediction?.awayScore?.toString() ?? '');
+  const loaded = useRef(!!prediction);
 
-  function set(side: 'homeScore' | 'awayScore', val: number) {
-    onChange({
-      matchId: m.id,
-      homeScore: side === 'homeScore' ? val : (prediction?.homeScore ?? 0),
-      awayScore: side === 'awayScore' ? val : (prediction?.awayScore ?? 0),
-    });
+  useEffect(() => {
+    if (!loaded.current && prediction) {
+      setHome(prediction.homeScore.toString());
+      setAway(prediction.awayScore.toString());
+      loaded.current = true;
+    }
+  }, [prediction]);
+
+  function handleInput(side: 'home' | 'away', raw: string) {
+    const h = side === 'home' ? raw : home;
+    const a = side === 'away' ? raw : away;
+    if (side === 'home') setHome(raw); else setAway(raw);
+    const hNum = parseInt(h);
+    const aNum = parseInt(a);
+    if (!isNaN(hNum) && hNum >= 0 && !isNaN(aNum) && aNum >= 0) {
+      onChange({ matchId: m.id, homeScore: hNum, awayScore: aNum });
+    }
   }
 
   return (
@@ -50,15 +64,15 @@ function MatchInputRow({
           <div className="flex items-center gap-0.5">
             <input
               type="number" min={0} max={99}
-              value={prediction?.homeScore ?? ''}
-              onChange={e => { const v = parseInt(e.target.value); if (!isNaN(v) && v >= 0) set('homeScore', v); }}
+              value={home}
+              onChange={e => handleInput('home', e.target.value)}
               className="w-9 text-center border border-gray-300 rounded py-0.5 text-xs font-bold focus:outline-none focus:ring-1 focus:ring-green-500"
             />
             <span className="text-gray-400 font-bold px-0.5">–</span>
             <input
               type="number" min={0} max={99}
-              value={prediction?.awayScore ?? ''}
-              onChange={e => { const v = parseInt(e.target.value); if (!isNaN(v) && v >= 0) set('awayScore', v); }}
+              value={away}
+              onChange={e => handleInput('away', e.target.value)}
               className="w-9 text-center border border-gray-300 rounded py-0.5 text-xs font-bold focus:outline-none focus:ring-1 focus:ring-green-500"
             />
           </div>
