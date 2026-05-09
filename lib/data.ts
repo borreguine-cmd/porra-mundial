@@ -1,7 +1,19 @@
 import { sql } from '@vercel/postgres';
+import { createHash, randomBytes } from 'crypto';
 import type { AppConfig, User, Prediction, ExtraPrediction, MatchResult, Team, GroupMatch, KnockoutMatch } from '@/types';
 import teamsData from '@/data/teams.json';
 import matchesData from '@/data/matches.json';
+
+function hashPassword(password: string, salt?: string): string {
+  const s = salt ?? randomBytes(16).toString('hex');
+  const h = createHash('sha256').update(s + password).digest('hex');
+  return `${s}:${h}`;
+}
+
+export function verifyPassword(password: string, stored: string): boolean {
+  const [salt, hash] = stored.split(':');
+  return createHash('sha256').update(salt + password).digest('hex') === hash;
+}
 
 // Static data — bundled at build time, works on Vercel
 export function getTeams(): Team[] {
@@ -62,11 +74,23 @@ export async function getUserByToken(token: string): Promise<User | undefined> {
   return { id: r.id, name: r.name, token: r.token, createdAt: r.created_at };
 }
 
-export async function createUser(name: string): Promise<User> {
+export async function getUserByName(name: string): Promise<{ user: User; passwordHash: string | null } | undefined> {
+  const { rows } = await sql`SELECT id, name, token, created_at, password_hash FROM users WHERE lower(name) = lower(${name}) LIMIT 1`;
+  if (!rows[0]) return undefined;
+  const r = rows[0];
+  return { user: { id: r.id, name: r.name, token: r.token, createdAt: r.created_at }, passwordHash: r.password_hash };
+}
+
+export async function createUser(name: string, password: string): Promise<User> {
   const id = `u_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
   const token = `t_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
-  await sql`INSERT INTO users (id, name, token) VALUES (${id}, ${name}, ${token})`;
+  const ph = hashPassword(password);
+  await sql`INSERT INTO users (id, name, token, password_hash) VALUES (${id}, ${name}, ${token}, ${ph})`;
   return { id, name, token, createdAt: new Date().toISOString() };
+}
+
+export async function setUserPassword(userId: string, password: string): Promise<void> {
+  await sql`UPDATE users SET password_hash = ${hashPassword(password)} WHERE id = ${userId}`;
 }
 
 /* ── Predictions ── */

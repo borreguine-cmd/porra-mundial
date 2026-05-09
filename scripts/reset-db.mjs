@@ -13,10 +13,11 @@ console.log('✓ Tablas eliminadas');
 // Recreate
 await sql`
   CREATE TABLE users (
-    id         TEXT PRIMARY KEY,
-    name       TEXT NOT NULL,
-    token      TEXT NOT NULL UNIQUE,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    id            TEXT PRIMARY KEY,
+    name          TEXT NOT NULL,
+    token         TEXT NOT NULL UNIQUE,
+    password_hash TEXT,
+    created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
   )
 `;
 

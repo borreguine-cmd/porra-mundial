@@ -8,15 +8,14 @@ function JoinForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // If already logged in, go to predictions
     const existing = localStorage.getItem('userToken');
     if (existing) router.replace('/predictions');
-
     const t = searchParams.get('token');
     if (t) setToken(t);
   }, [router, searchParams]);
@@ -25,20 +24,14 @@ function JoinForm() {
     e.preventDefault();
     setError('');
     setLoading(true);
-
     try {
       const res = await fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.trim(), inviteToken: token }),
+        body: JSON.stringify({ name: name.trim(), password, inviteToken: token }),
       });
       const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error ?? 'Error al unirse');
-        return;
-      }
-
+      if (!res.ok) { setError(data.error ?? 'Error al entrar'); return; }
       localStorage.setItem('userToken', data.token);
       localStorage.setItem('userId', data.id);
       localStorage.setItem('userName', data.name);
@@ -53,7 +46,6 @@ function JoinForm() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="text-6xl mb-3">⚽</div>
           <h1 className="text-3xl font-bold text-green-800">Porra Mundial 2026</h1>
@@ -61,34 +53,40 @@ function JoinForm() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-md p-8">
-          <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">
+          <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">
             Únete a la porra
           </h2>
-          <p className="text-xs text-gray-400 text-center mb-5">
-            Si ya participas, pon tu mismo nombre para recuperar tu cuenta.
-          </p>
 
           <form onSubmit={handleJoin} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Tu nombre
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tu nombre</label>
               <input
                 type="text"
                 value={name}
                 onChange={e => setName(e.target.value)}
                 placeholder="Ej: María García"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900"
-                required
-                minLength={2}
-                maxLength={30}
+                required minLength={2} maxLength={30}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Token de invitación
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+              <input
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="Mín. 4 caracteres"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900"
+                required minLength={4}
+              />
+              <p className="text-xs text-gray-400 mt-1">
+                Primera vez: elige una contraseña. Ya participas: usa la misma de siempre.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Token de invitación</label>
               <input
                 type="text"
                 value={token}
@@ -100,14 +98,11 @@ function JoinForm() {
             </div>
 
             {error && (
-              <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm">
-                {error}
-              </div>
+              <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm">{error}</div>
             )}
 
             <button
-              type="submit"
-              disabled={loading}
+              type="submit" disabled={loading}
               className="w-full bg-green-700 hover:bg-green-800 disabled:bg-gray-400 text-white font-semibold py-3 rounded-lg transition-colors"
             >
               {loading ? 'Entrando...' : 'Entrar a la porra'}
