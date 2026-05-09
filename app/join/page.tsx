@@ -61,9 +61,12 @@ function JoinForm() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-md p-8">
-          <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">
+          <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">
             Únete a la porra
           </h2>
+          <p className="text-xs text-gray-400 text-center mb-5">
+            Si ya participas, pon tu mismo nombre para recuperar tu cuenta.
+          </p>
 
           <form onSubmit={handleJoin} className="space-y-4">
             <div>

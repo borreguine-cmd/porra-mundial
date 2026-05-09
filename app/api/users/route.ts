@@ -19,8 +19,9 @@ export async function POST(req: NextRequest) {
   }
 
   const trimmed = name.trim();
-  if (users.find(u => u.name.toLowerCase() === trimmed.toLowerCase())) {
-    return NextResponse.json({ error: 'Ya existe un participante con ese nombre' }, { status: 409 });
+  const existing = users.find(u => u.name.toLowerCase() === trimmed.toLowerCase());
+  if (existing) {
+    return NextResponse.json({ id: existing.id, name: existing.name, token: existing.token });
   }
 
   const user = await createUser(trimmed);
