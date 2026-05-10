@@ -40,6 +40,10 @@ export async function getConfig(): Promise<AppConfig> {
       correctChampion: r.points_correct_champion,
       correctMVP: r.points_correct_mvp,
       correctTopScorer: r.points_correct_top_scorer,
+      exactPos1: r.points_exact_pos1 ?? 3,
+      exactPos2: r.points_exact_pos2 ?? 2,
+      exactPos3: r.points_exact_pos3 ?? 1,
+      exactPos4: r.points_exact_pos4 ?? 0,
     },
   };
 }
@@ -56,7 +60,11 @@ export async function saveConfig(config: AppConfig): Promise<void> {
       points_advances_knockout = ${config.points.advancesKnockout},
       points_correct_champion = ${config.points.correctChampion},
       points_correct_mvp      = ${config.points.correctMVP},
-      points_correct_top_scorer = ${config.points.correctTopScorer}
+      points_correct_top_scorer = ${config.points.correctTopScorer},
+      points_exact_pos1       = ${config.points.exactPos1},
+      points_exact_pos2       = ${config.points.exactPos2},
+      points_exact_pos3       = ${config.points.exactPos3},
+      points_exact_pos4       = ${config.points.exactPos4}
     WHERE id = 1
   `;
 }

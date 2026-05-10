@@ -15,6 +15,10 @@ interface Config {
     correctChampion: number;
     correctMVP: number;
     correctTopScorer: number;
+    exactPos1: number;
+    exactPos2: number;
+    exactPos3: number;
+    exactPos4: number;
   };
 }
 
@@ -156,11 +160,15 @@ export default function AdminDashboard() {
                 const labels: Record<string, string> = {
                   correctWinner: 'Acertar ganador (1X2)',
                   exactScore: 'Resultado exacto',
-                  advancesGroup: 'Pasa fase de grupos',
+                  advancesGroup: 'Pasa fase de grupos (top 2)',
                   advancesKnockout: 'Avanza en eliminatoria',
                   correctChampion: 'Campeón correcto',
                   correctMVP: 'MVP correcto',
                   correctTopScorer: 'Pichichi correcto',
+                  exactPos1: 'Posición exacta 1º de grupo',
+                  exactPos2: 'Posición exacta 2º de grupo',
+                  exactPos3: 'Posición exacta 3º de grupo',
+                  exactPos4: 'Posición exacta 4º de grupo',
                 };
                 return (
                   <div key={key}>

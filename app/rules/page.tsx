@@ -20,7 +20,11 @@ export default function RulesPage() {
   ];
 
   const classRules = [
-    { label: 'Equipo clasifica de grupo', desc: 'Un equipo que predices entre los dos primeros de su grupo acaba efectivamente entre los dos primeros. Solo se computa cuando el grupo está completo.', pts: pts?.advancesGroup },
+    { label: 'Posición exacta 1º de grupo', desc: 'Aciertas exactamente qué equipo queda primero en un grupo. Se puntúa grupo a grupo cuando el grupo está completo.', pts: pts?.exactPos1, color: 'text-yellow-500' },
+    { label: 'Posición exacta 2º de grupo', desc: 'Aciertas exactamente qué equipo queda segundo en un grupo.', pts: pts?.exactPos2, color: 'text-gray-400' },
+    { label: 'Posición exacta 3º de grupo', desc: 'Aciertas exactamente qué equipo queda tercero en un grupo.', pts: pts?.exactPos3, color: 'text-amber-600' },
+    { label: 'Posición exacta 4º de grupo', desc: 'Aciertas exactamente qué equipo queda cuarto (último) en un grupo.', pts: pts?.exactPos4, color: 'text-gray-500' },
+    { label: 'Equipo clasifica de grupo (top 2)', desc: 'Un equipo que predices entre los dos primeros de su grupo acaba efectivamente entre los dos primeros. Se computa cuando el grupo está completo (independiente de la posición exacta).', pts: pts?.advancesGroup },
     { label: 'Equipo avanza en eliminatorias', desc: 'Predices correctamente qué equipo pasa a la siguiente ronda en un partido de eliminatoria.', pts: pts?.advancesKnockout },
   ];
 
@@ -78,7 +82,7 @@ export default function RulesPage() {
           {classRules.map(r => (
             <div key={r.label} className="bg-white rounded-xl border border-gray-100 p-4 flex items-start gap-4">
               <div className="flex-shrink-0 w-14 text-center">
-                <span className="text-2xl font-black text-blue-600">{r.pts ?? '…'}</span>
+                <span className={`text-2xl font-black ${r.color ?? 'text-blue-600'}`}>{r.pts ?? '…'}</span>
                 <div className="text-[10px] text-gray-400 leading-tight">pts</div>
               </div>
               <div>

@@ -54,6 +54,7 @@ export function calcUserPoints(
 
   let groupWinner = 0;
   let exactScore = 0;
+  let exactPosition = 0;
   let advancesGroup = 0;
   let advancesKnockout = 0;
   let champion = 0;
@@ -93,6 +94,14 @@ export function calcUserPoints(
 
     for (const team of predAdvanced) {
       if (team && realAdvanced.has(team)) advancesGroup += cfg.advancesGroup;
+    }
+
+    // Exact position scoring
+    const posPts = [cfg.exactPos1, cfg.exactPos2, cfg.exactPos3, cfg.exactPos4];
+    for (let pos = 0; pos < 4; pos++) {
+      if (posPts[pos] > 0 && predStandings[pos]?.teamId && predStandings[pos].teamId === realStandings[pos]?.teamId) {
+        exactPosition += posPts[pos];
+      }
     }
   }
 
@@ -174,12 +183,12 @@ export function calcUserPoints(
     // They will be compared to the stored extra_results when implemented
   }
 
-  const totalPoints = groupWinner + exactScore + advancesGroup + advancesKnockout + champion + mvp + topScorer;
+  const totalPoints = groupWinner + exactScore + exactPosition + advancesGroup + advancesKnockout + champion + mvp + topScorer;
 
   return {
     userId: user.id,
     userName: user.name,
     totalPoints,
-    breakdown: { groupWinner, exactScore, advancesGroup, advancesKnockout, champion, mvp, topScorer },
+    breakdown: { groupWinner, exactScore, exactPosition, advancesGroup, advancesKnockout, champion, mvp, topScorer },
   };
 }

@@ -68,6 +68,10 @@ export interface PointsConfig {
   correctChampion: number;
   correctMVP: number;
   correctTopScorer: number;
+  exactPos1: number;
+  exactPos2: number;
+  exactPos3: number;
+  exactPos4: number;
 }
 
 export interface AppConfig {
@@ -96,6 +100,7 @@ export interface StandingEntry {
   breakdown: {
     groupWinner: number;
     exactScore: number;
+    exactPosition: number;
     advancesGroup: number;
     advancesKnockout: number;
     champion: number;
