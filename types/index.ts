@@ -79,6 +79,16 @@ export interface AppConfig {
   adminPassword: string;
   deadline: string | null;
   points: PointsConfig;
+  realChampion: string | null;
+  realMVP: string | null;
+  realTopScorer: string | null;
+}
+
+export interface ExtraResult {
+  userId: string;
+  championCorrect: boolean;
+  mvpCorrect: boolean;
+  topScorerCorrect: boolean;
 }
 
 export interface GroupStanding {

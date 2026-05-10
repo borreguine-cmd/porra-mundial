@@ -3,10 +3,14 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import teamsData from '@/data/teams.json';
 
 interface Config {
   inviteToken: string;
   deadline: string | null;
+  realChampion: string | null;
+  realMVP: string | null;
+  realTopScorer: string | null;
   points: {
     correctWinner: number;
     exactScore: number;
@@ -22,6 +26,17 @@ interface Config {
   };
 }
 
+interface ExtraRow {
+  userId: string;
+  userName: string;
+  champion: string;
+  mvp: string;
+  topScorer: string;
+  championCorrect: boolean | null;
+  mvpCorrect: boolean | null;
+  topScorerCorrect: boolean | null;
+}
+
 export default function AdminDashboard() {
   const router = useRouter();
   const [config, setConfig] = useState<Config | null>(null);
@@ -30,6 +45,9 @@ export default function AdminDashboard() {
   const [saved, setSaved] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [pwMsg, setPwMsg] = useState('');
+  const [extraRows, setExtraRows] = useState<ExtraRow[]>([]);
+  const [extraSaving, setExtraSaving] = useState(false);
+  const [extraSaved, setExtraSaved] = useState(false);
 
   useEffect(() => {
     const session = localStorage.getItem('adminSession');
@@ -37,6 +55,9 @@ export default function AdminDashboard() {
 
     fetch('/api/config').then(r => r.json()).then(setConfig);
     fetch('/api/users').then(r => r.json()).then((u: unknown[]) => setParticipants(u.length));
+    fetch('/api/admin/extra-results', {
+      headers: { 'x-admin-session': localStorage.getItem('adminSession') ?? '' },
+    }).then(r => r.json()).then(setExtraRows);
   }, [router]);
 
   function adminHeaders() {
@@ -52,11 +73,46 @@ export default function AdminDashboard() {
     await fetch('/api/config', {
       method: 'PATCH',
       headers: adminHeaders(),
-      body: JSON.stringify({ deadline: config.deadline, points: config.points, inviteToken: config.inviteToken }),
+      body: JSON.stringify({
+        deadline: config.deadline,
+        points: config.points,
+        inviteToken: config.inviteToken,
+        realChampion: config.realChampion || null,
+        realMVP: config.realMVP || null,
+        realTopScorer: config.realTopScorer || null,
+      }),
     });
     setSaved(true);
     setSaving(false);
     setTimeout(() => setSaved(false), 3000);
+  }
+
+  async function saveExtraResults() {
+    setExtraSaving(true);
+    const overrides = extraRows
+      .filter(r => r.championCorrect !== null || r.mvpCorrect !== null || r.topScorerCorrect !== null)
+      .map(r => ({
+        userId: r.userId,
+        championCorrect: r.championCorrect ?? false,
+        mvpCorrect: r.mvpCorrect ?? false,
+        topScorerCorrect: r.topScorerCorrect ?? false,
+      }));
+    await fetch('/api/admin/extra-results', {
+      method: 'PATCH',
+      headers: adminHeaders(),
+      body: JSON.stringify({ overrides }),
+    });
+    setExtraSaved(true);
+    setExtraSaving(false);
+    setTimeout(() => setExtraSaved(false), 3000);
+  }
+
+  function toggleCorrect(userId: string, field: 'championCorrect' | 'mvpCorrect' | 'topScorerCorrect', value: boolean) {
+    setExtraRows(rows => rows.map(r => {
+      if (r.userId !== userId) return r;
+      const current = r[field];
+      return { ...r, [field]: current === value ? null : value };
+    }));
   }
 
   async function changePassword() {
@@ -80,6 +136,23 @@ export default function AdminDashboard() {
       <div className="text-4xl">⏳</div>
     </div>
   );
+
+  const teamMap = Object.fromEntries(teamsData.map(t => [t.id, { name: t.name, flag: t.flag }]));
+
+  function CorrectBtn({ value, active, onClick }: { value: boolean; active: boolean; onClick: () => void }) {
+    return (
+      <button
+        onClick={onClick}
+        className={`px-2 py-0.5 rounded text-xs font-bold transition-colors ${
+          active
+            ? value ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+            : 'bg-gray-600 text-gray-400 hover:bg-gray-500'
+        }`}
+      >
+        {value ? '✓' : '✗'}
+      </button>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4">
@@ -188,6 +261,46 @@ export default function AdminDashboard() {
             </div>
           </div>
 
+          {/* Real results */}
+          <div className="bg-gray-800 rounded-2xl p-6">
+            <h2 className="font-bold text-lg mb-4">🏆 Resultados reales</h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs text-gray-400 mb-1">Campeón del mundo</label>
+                <select
+                  value={config.realChampion ?? ''}
+                  onChange={e => setConfig(c => c ? { ...c, realChampion: e.target.value || null } : c)}
+                  className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                >
+                  <option value="">— Sin determinar —</option>
+                  {teamsData.map(t => (
+                    <option key={t.id} value={t.id}>{t.flag} {t.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-gray-400 mb-1">Mejor jugador (MVP)</label>
+                <input
+                  type="text"
+                  value={config.realMVP ?? ''}
+                  onChange={e => setConfig(c => c ? { ...c, realMVP: e.target.value || null } : c)}
+                  placeholder="Nombre del jugador"
+                  className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-400 mb-1">Pichichi (máximo goleador)</label>
+                <input
+                  type="text"
+                  value={config.realTopScorer ?? ''}
+                  onChange={e => setConfig(c => c ? { ...c, realTopScorer: e.target.value || null } : c)}
+                  placeholder="Nombre del jugador"
+                  className="w-full bg-gray-700 text-white px-3 py-2 rounded-lg border border-gray-600 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+            </div>
+          </div>
+
           {/* Save button */}
           <button
             onClick={saveConfig}
@@ -196,6 +309,102 @@ export default function AdminDashboard() {
           >
             {saving ? 'Guardando...' : saved ? '✓ Guardado' : 'Guardar configuración'}
           </button>
+
+          {/* Extra results evaluation */}
+          {extraRows.length > 0 && (
+            <div className="bg-gray-800 rounded-2xl p-6">
+              <h2 className="font-bold text-lg mb-2">⭐ Evaluación de extras</h2>
+              <p className="text-gray-400 text-xs mb-4">
+                Marca ✓ (acierto) o ✗ (fallo) para cada participante. Pulsa de nuevo el mismo botón para quitar la marca.
+              </p>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-gray-400 text-xs border-b border-gray-700">
+                      <th className="text-left py-2 pr-4">Participante</th>
+                      <th className="text-left py-2 pr-2">Campeón</th>
+                      <th className="text-center py-2 pr-4 w-16">✓✗</th>
+                      <th className="text-left py-2 pr-2">MVP</th>
+                      <th className="text-center py-2 pr-4 w-16">✓✗</th>
+                      <th className="text-left py-2 pr-2">Pichichi</th>
+                      <th className="text-center py-2 w-16">✓✗</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {extraRows.map(row => {
+                      const champ = teamMap[row.champion];
+                      return (
+                        <tr key={row.userId} className="border-b border-gray-700/50">
+                          <td className="py-2 pr-4 font-medium">{row.userName}</td>
+                          <td className="py-2 pr-2 text-gray-300">
+                            {champ
+                              ? <span>{champ.flag} {champ.name}</span>
+                              : <span className="text-gray-500 italic">{row.champion || '—'}</span>
+                            }
+                          </td>
+                          <td className="py-2 pr-4 text-center">
+                            <div className="flex gap-1 justify-center">
+                              <CorrectBtn
+                                value={true}
+                                active={row.championCorrect === true}
+                                onClick={() => toggleCorrect(row.userId, 'championCorrect', true)}
+                              />
+                              <CorrectBtn
+                                value={false}
+                                active={row.championCorrect === false}
+                                onClick={() => toggleCorrect(row.userId, 'championCorrect', false)}
+                              />
+                            </div>
+                          </td>
+                          <td className="py-2 pr-2 text-gray-300">
+                            {row.mvp || <span className="text-gray-500 italic">—</span>}
+                          </td>
+                          <td className="py-2 pr-4 text-center">
+                            <div className="flex gap-1 justify-center">
+                              <CorrectBtn
+                                value={true}
+                                active={row.mvpCorrect === true}
+                                onClick={() => toggleCorrect(row.userId, 'mvpCorrect', true)}
+                              />
+                              <CorrectBtn
+                                value={false}
+                                active={row.mvpCorrect === false}
+                                onClick={() => toggleCorrect(row.userId, 'mvpCorrect', false)}
+                              />
+                            </div>
+                          </td>
+                          <td className="py-2 pr-2 text-gray-300">
+                            {row.topScorer || <span className="text-gray-500 italic">—</span>}
+                          </td>
+                          <td className="py-2 text-center">
+                            <div className="flex gap-1 justify-center">
+                              <CorrectBtn
+                                value={true}
+                                active={row.topScorerCorrect === true}
+                                onClick={() => toggleCorrect(row.userId, 'topScorerCorrect', true)}
+                              />
+                              <CorrectBtn
+                                value={false}
+                                active={row.topScorerCorrect === false}
+                                onClick={() => toggleCorrect(row.userId, 'topScorerCorrect', false)}
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              <button
+                onClick={saveExtraResults}
+                disabled={extraSaving}
+                className="mt-4 w-full bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 py-2.5 rounded-xl font-semibold text-sm transition-colors"
+              >
+                {extraSaving ? 'Guardando...' : extraSaved ? '✓ Evaluaciones guardadas' : 'Guardar evaluaciones'}
+              </button>
+            </div>
+          )}
 
           {/* Change password */}
           <div className="bg-gray-800 rounded-2xl p-6">

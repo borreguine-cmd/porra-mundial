@@ -1,6 +1,6 @@
 import { sql } from '@vercel/postgres';
 import { createHash, randomBytes } from 'crypto';
-import type { AppConfig, User, Prediction, ExtraPrediction, MatchResult, Team, GroupMatch, KnockoutMatch } from '@/types';
+import type { AppConfig, ExtraResult, User, Prediction, ExtraPrediction, MatchResult, Team, GroupMatch, KnockoutMatch } from '@/types';
 import teamsData from '@/data/teams.json';
 import matchesData from '@/data/matches.json';
 
@@ -32,6 +32,9 @@ export async function getConfig(): Promise<AppConfig> {
     inviteToken: r.invite_token,
     adminPassword: r.admin_password,
     deadline: r.deadline,
+    realChampion: r.real_champion ?? null,
+    realMVP: r.real_mvp ?? null,
+    realTopScorer: r.real_top_scorer ?? null,
     points: {
       correctWinner: r.points_correct_winner,
       exactScore: r.points_exact_score,
@@ -64,8 +67,33 @@ export async function saveConfig(config: AppConfig): Promise<void> {
       points_exact_pos1       = ${config.points.exactPos1},
       points_exact_pos2       = ${config.points.exactPos2},
       points_exact_pos3       = ${config.points.exactPos3},
-      points_exact_pos4       = ${config.points.exactPos4}
+      points_exact_pos4       = ${config.points.exactPos4},
+      real_champion           = ${config.realChampion},
+      real_mvp                = ${config.realMVP},
+      real_top_scorer         = ${config.realTopScorer}
     WHERE id = 1
+  `;
+}
+
+/* ── Extra results (manual admin overrides) ── */
+export async function getExtraResults(): Promise<ExtraResult[]> {
+  const { rows } = await sql`SELECT user_id, champion_correct, mvp_correct, top_scorer_correct FROM extra_results`;
+  return rows.map(r => ({
+    userId: r.user_id,
+    championCorrect: r.champion_correct,
+    mvpCorrect: r.mvp_correct,
+    topScorerCorrect: r.top_scorer_correct,
+  }));
+}
+
+export async function saveExtraResult(result: ExtraResult): Promise<void> {
+  await sql`
+    INSERT INTO extra_results (user_id, champion_correct, mvp_correct, top_scorer_correct)
+    VALUES (${result.userId}, ${result.championCorrect}, ${result.mvpCorrect}, ${result.topScorerCorrect})
+    ON CONFLICT (user_id) DO UPDATE SET
+      champion_correct   = EXCLUDED.champion_correct,
+      mvp_correct        = EXCLUDED.mvp_correct,
+      top_scorer_correct = EXCLUDED.top_scorer_correct
   `;
 }
 

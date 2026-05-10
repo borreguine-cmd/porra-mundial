@@ -1,6 +1,6 @@
 import type {
   MatchPrediction, MatchResult, PointsConfig,
-  ExtraPrediction, GroupMatch, KnockoutMatch, StandingEntry, User
+  ExtraPrediction, ExtraResult, GroupMatch, KnockoutMatch, StandingEntry, User
 } from '@/types';
 import { calcGroupStandings, resolveKnockoutSlot } from './brackets';
 
@@ -38,6 +38,7 @@ export function calcUserPoints(
   user: User,
   userPrediction: MatchPrediction[],
   extraPrediction: ExtraPrediction | undefined,
+  extraResult: ExtraResult | undefined,
   results: MatchResult[],
   groupMatches: GroupMatch[],
   knockoutMatches: KnockoutMatch[],
@@ -154,33 +155,11 @@ export function calcUserPoints(
     }
   }
 
-  // Extra predictions
-  if (extraPrediction) {
-    const finalResult = resultMap.get('FINAL');
-    if (finalResult) {
-      const realKnockoutPredMap = new Map(
-        knockoutMatches.map(km => {
-          const r = resultMap.get(km.id);
-          if (!r) return null;
-          return [km.id, { matchId: km.id, homeScore: r.homeScore, awayScore: r.awayScore, homePenalties: r.homePenalties, awayPenalties: r.awayPenalties } as MatchPrediction];
-        }).filter(Boolean) as [string, MatchPrediction][]
-      );
-      const realResultsAsPreds = groupMatches.map(m => {
-        const r = resultMap.get(m.id);
-        if (!r) return null;
-        return { matchId: m.id, homeScore: r.homeScore, awayScore: r.awayScore } as MatchPrediction;
-      }).filter(Boolean) as MatchPrediction[];
-
-      const realWinner = getMatchWinner(finalResult.homeScore, finalResult.awayScore, finalResult.homePenalties, finalResult.awayPenalties);
-      const finalMatch = knockoutMatches.find(m => m.id === 'FINAL')!;
-      const realChampSlot = realWinner === 'home' ? finalMatch.homeSlot : finalMatch.awaySlot;
-      const realChamp = resolveKnockoutSlot(realChampSlot, groupMatches, realResultsAsPreds, realKnockoutPredMap);
-
-      if (realChamp && extraPrediction.champion === realChamp) champion += cfg.correctChampion;
-    }
-
-    // MVP and top scorer require admin to have recorded them separately
-    // They will be compared to the stored extra_results when implemented
+  // Extra predictions — scored via manual admin override
+  if (extraResult) {
+    if (extraResult.championCorrect) champion = cfg.correctChampion;
+    if (extraResult.mvpCorrect) mvp = cfg.correctMVP;
+    if (extraResult.topScorerCorrect) topScorer = cfg.correctTopScorer;
   }
 
   const totalPoints = groupWinner + exactScore + exactPosition + advancesGroup + advancesKnockout + champion + mvp + topScorer;
