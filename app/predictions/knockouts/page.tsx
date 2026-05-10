@@ -9,7 +9,7 @@ import { resolveKnockoutSlot } from '@/lib/brackets';
 
 const teamMap = Object.fromEntries(teamsData.map(t => [t.id, { name: t.name, flag: t.flag }]));
 
-const SH = 76;
+const SH = 100;
 const CW = 172;
 const CW2 = 20;
 const LINE = '#4b5563';

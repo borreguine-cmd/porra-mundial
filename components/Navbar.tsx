@@ -12,6 +12,7 @@ export default function Navbar() {
     { href: '/predictions', label: '📋 Mis predicciones' },
     { href: '/standings', label: '🏆 Clasificación' },
     { href: '/players', label: '👀 Ver todos' },
+    { href: '/rules', label: '📖 Reglas' },
   ];
 
   function handleLogout() {

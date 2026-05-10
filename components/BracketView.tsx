@@ -7,7 +7,7 @@ import { resolveKnockoutSlot } from '@/lib/brackets';
 
 const teamMap = Object.fromEntries(teamsData.map(t => [t.id, { name: t.name, flag: t.flag }]));
 
-const SH = 76;   // slot height px (per R32 slot)
+const SH = 100;  // slot height px (per R32 slot)
 const CW = 156;  // card width px
 const CW2 = 20;  // connector width px
 const LINE = '#4b5563'; // connector color

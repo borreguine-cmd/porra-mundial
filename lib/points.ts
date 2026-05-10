@@ -73,9 +73,12 @@ export function calcUserPoints(
     if (pts > cfg.correctWinner) exactScore += cfg.exactScore;
   }
 
-  // Group advancement points
+  // Group advancement points — only when all group matches have results
   const groups = ['A','B','C','D','E','F','G','H','I','J','K','L'];
   for (const g of groups) {
+    const gMatchIds = groupMatches.filter(m => m.group === g).map(m => m.id);
+    if (!gMatchIds.every(id => resultMap.has(id))) continue;
+
     const predStandings = calcGroupStandings(g, groupMatches, userPrediction);
     const realStandings = calcGroupStandings(g, groupMatches,
       groupMatches.map(m => {
